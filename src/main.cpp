@@ -1,4 +1,4 @@
-
+#include "draw.h"
 #include "main.h"
 #include <iostream>
 
@@ -51,19 +51,6 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void setDrawColor(SDL_Renderer *renderer, SDL_Color &color)
-{
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-}
-
-void shrinkRect(float size, SDL_FRect &rect)
-{
-    rect.x += size;
-    rect.y += size;
-    rect.w -= 2 * size;
-    rect.h -= 2 * size;
-}
-
 void render(AppState *state)
 {
     static float border = state->borderSize;
@@ -98,18 +85,20 @@ void render(AppState *state)
     float tickPosition = 1 + border + state->buttonSize;
 
     // horizontal ticks
-    SDL_RenderLine(state->renderer, 1, tickPosition, border, tickPosition);                                                                         // top left
-    SDL_RenderLine(state->renderer, scaledSize.w - border - 1, tickPosition, scaledSize.w - 2, tickPosition);                                       // top right
-    SDL_RenderLine(state->renderer, 1, scaledSize.h - 2 - tickPosition, border, scaledSize.h - 2 - tickPosition);                                   // bottom left
-    SDL_RenderLine(state->renderer, scaledSize.w - border - 1, scaledSize.h - 2 - tickPosition, scaledSize.w - 2, scaledSize.h - 2 - tickPosition); // bottom right
+    SDL_RenderLine(state->renderer, 1, tickPosition, border, tickPosition);                                       // top left
+    SDL_RenderLine(state->renderer, scaledSize.w - border - 1, tickPosition, scaledSize.w - 2, tickPosition);     // top right
+    SDL_RenderLine(state->renderer, 1, scaledSize.h - 2 - tickPosition, border, scaledSize.h - 2 - tickPosition); // bottom left
+    SDL_RenderLine(state->renderer, scaledSize.w - border - 1, scaledSize.h - 2 - tickPosition,
+                   scaledSize.w - 2, scaledSize.h - 2 - tickPosition); // bottom right
 
     // verticalTicks
-    SDL_RenderLine(state->renderer, tickPosition, 1, tickPosition, border);                                                                         // top left
-    SDL_RenderLine(state->renderer, tickPosition, scaledSize.h - border - 1, tickPosition, scaledSize.h - 2);                                       // bottom left
+    SDL_RenderLine(state->renderer, tickPosition, 1, tickPosition, border);                                   // top left
+    SDL_RenderLine(state->renderer, tickPosition, scaledSize.h - border - 1, tickPosition, scaledSize.h - 2); // bottom left
 
-    SDL_RenderLine(state->renderer, scaledSize.w - 2 - tickPosition, 1, scaledSize.w - 2 - tickPosition, border);                                   // top right
-    SDL_RenderLine(state->renderer, scaledSize.w - 2 - tickPosition, scaledSize.h - border - 1, scaledSize.w - 2 - tickPosition, scaledSize.h - 2); // bottom right
-    
+    SDL_RenderLine(state->renderer, scaledSize.w - 2 - tickPosition, 1, scaledSize.w - 2 - tickPosition, border); // top right
+    SDL_RenderLine(state->renderer, scaledSize.w - 2 - tickPosition, scaledSize.h - border - 1,
+                   scaledSize.w - 2 - tickPosition, scaledSize.h - 2); // bottom right
+
     setDrawColor(state->renderer, Magenta);
     SDL_RenderPresent(state->renderer);
 }
